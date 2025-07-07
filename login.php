@@ -30,10 +30,11 @@ $password = $data['password'] ?? '';
 echo "Username: $username, Password: $password\n"; // Debugging output
 
 // ✅ Validate input
-if (!$username || !$password) {
+if (empty(trim($username)) || empty(trim($password))) {
     echo "Missing credentials";
     exit();
 }
+
 
 // ✅ Query the database securely
 $stmt = $obj->prepare("SELECT id, username, Password FROM register WHERE username = ?");
