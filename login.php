@@ -47,6 +47,8 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
+echo "dbUsername: {$user['username']}, username: $username, Password: $password, dbPassword: {$user['password']}\n"; // Debugging output
+
 // Verify password (assuming it's hashed)
 if ($user && password_verify($password, $user['password'])) {
     $_SESSION['user'] = ['id' => $user['id'], 'username' => $user['username']];
