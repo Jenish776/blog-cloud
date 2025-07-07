@@ -44,6 +44,6 @@ if ($user && password_verify($password, $user['Password'])) {
     $_SESSION['user'] = ['id' => $user['id'], 'username' => $user['username']];
     echo "Login successful";
 } else {
-    echo "Invalid credentials";
+    echo "Invalid cred";
 }
 ?>
