@@ -3,7 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
+header("Content-Type: text/plain");
 
 // ✅ Handle preflight (CORS)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // ✅ Reject non-POST methods
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Method Not Allowed
-    echo json_encode(["success" => false, "message" => "Method Not Allowed"]);
+    echo "Method Not Allowed";
     exit();
 }
 
@@ -24,27 +24,27 @@ include "connection.php";
 
 // ✅ Read JSON input
 $data = json_decode(file_get_contents("php://input"), true);
-$username = $data['userName'] ?? '';
+$username = trim($data['userName'] ?? '');
 $password = $data['password'] ?? '';
 
-// ✅ Validate & respond
-if ($username && $password) {
-    $stmt = $obj->prepare("SELECT id, username, Password FROM register WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $res = $stmt->get_result()->fetch_assoc();
+// ✅ Validate input
+if (!$username || !$password) {
+    echo "Missing credentials";
+    exit();
+}
 
-    if ($res && $password === $res['Password']) {
-        $_SESSION['user'] = ['id' => $res['id'], 'username' => $res['username']];
-        echo json_encode([
-            "success" => true,
-            "message" => "Login successful",
-            "user" => $_SESSION['user']
-        ]);
-    } else {
-        echo json_encode(["success" => false, "message" => "Invalid credentials"]);
-    }
+// ✅ Query the database securely
+$stmt = $obj->prepare("SELECT id, username, Password FROM register WHERE username = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+// ✅ Verify password (assuming it's hashed)
+if ($user && password_verify($password, $user['Password'])) {
+    $_SESSION['user'] = ['id' => $user['id'], 'username' => $user['username']];
+    echo "Login successful";
 } else {
-    echo json_encode(["success" => false, "message" => "Missing credentials"]);
+    echo "Invalid credentials";
 }
 ?>
