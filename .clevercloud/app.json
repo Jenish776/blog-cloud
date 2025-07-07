@@ -1,0 +1,9 @@
+{
+  "name": "php-backend-app",
+  "deploy": {
+    "num_versions_to_keep": 5
+  },
+  "build": {
+    "flavor": "php"
+  }
+}

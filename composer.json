@@ -1,0 +1,5 @@
+{
+  "name": "yourname/php-app",
+  "description": "A basic PHP app",
+  "require": {}
+}
