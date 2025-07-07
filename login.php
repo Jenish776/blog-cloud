@@ -27,6 +27,8 @@ $data = json_decode(file_get_contents("php://input"), true);
 $username = trim($data['userName'] ?? '');
 $password = $data['password'] ?? '';
 
+echo "Username: $username, Password: $password\n"; // Debugging output
+
 // ✅ Validate input
 if (!$username || !$password) {
     echo "Missing credentials";
