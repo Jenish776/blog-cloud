@@ -29,11 +29,7 @@ $password = $data['password'] ?? '';
 
 echo "Username: $username, Password: $password\n"; // Debugging output
 
-// ✅ Validate input
-if (empty(trim($username)) || empty(trim($password))) {
-    echo "Missing credentials";
-    exit();
-}
+
 
 
 // ✅ Query the database securely
