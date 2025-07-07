@@ -19,5 +19,5 @@ if ($obj->connect_errno != 0) {
     exit;
 }
 
-echo json_encode(["message" => "Hello from backend"]);
+//echo json_encode(["message" => "Hello from backend"]);
 ?>

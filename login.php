@@ -47,7 +47,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-echo "dbUsername: {$user['username']}, username: $username, Password: $password, dbPassword: {$user['password']}\n"; // Debugging output
+ // Debugging output
 
 // Verify password (assuming it's hashed)
 if ($user && $password == $user['password']) {
